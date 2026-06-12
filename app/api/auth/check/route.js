@@ -13,7 +13,7 @@ export async function POST(request) {
     const domain = normalised.split('@')[1];
 
     // Check allowed domains
-    const allowedDomains = ['xenomorph.com']; // add your company domain here
+    const allowedDomains = ['xenomorph.com', 'newmodel.vc', 'wellsmalting.org.uk']; // add your company domain here
 
     if (allowedDomains.includes(domain)) {
       return Response.json({ allowed: true });
