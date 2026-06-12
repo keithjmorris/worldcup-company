@@ -24,7 +24,7 @@ export default function ChatPage() {
   }, []);
 
   useEffect(() => {
-    const q = query(collection(db, 'messages'), orderBy('createdAt', 'asc'));
+    const q = query(collection(db, 'messages-company'), orderBy('createdAt', 'asc'));
     const unsub = onSnapshot(q, snapshot => {
       setMessages(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     });
@@ -45,7 +45,7 @@ export default function ChatPage() {
   async function sendMessage(e) {
     e.preventDefault();
     if (!newMessage.trim()) return;
-    await addDoc(collection(db, 'messages'), {
+    await addDoc(collection(db, 'messages-company'), {
       text: newMessage.trim(),
       name,
       createdAt: serverTimestamp(),
