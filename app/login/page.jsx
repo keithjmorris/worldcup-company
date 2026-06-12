@@ -31,9 +31,9 @@ export default function LoginPage() {
       }
 
       const actionCodeSettings = {
-  url: 'https://worldcup-company.vercel.app/auth/callback',
-  handleCodeInApp: true,
-};
+        url: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+        handleCodeInApp: true,
+      };
 
       console.log('Callback URL:', actionCodeSettings.url);
 
