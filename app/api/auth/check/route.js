@@ -9,8 +9,18 @@ export async function POST(request) {
       return Response.json({ allowed: false });
     }
 
-    // Check against allowed emails in Firestore
-    const docRef = doc(db, 'allowed_emails', email.toLowerCase().trim());
+    const normalised = email.toLowerCase().trim();
+    const domain = normalised.split('@')[1];
+
+    // Check allowed domains
+    const allowedDomains = ['xenomorph.com']; // add your company domain here
+
+    if (allowedDomains.includes(domain)) {
+      return Response.json({ allowed: true });
+    }
+
+    // Check individual allowed emails for exceptions
+    const docRef = doc(db, 'allowed_emails', normalised);
     const docSnap = await getDoc(docRef);
 
     return Response.json({ allowed: docSnap.exists() });
