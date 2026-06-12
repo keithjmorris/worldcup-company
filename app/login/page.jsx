@@ -35,6 +35,8 @@ export default function LoginPage() {
         handleCodeInApp: true,
       };
 
+      console.log('Callback URL:', actionCodeSettings.url);
+
       await sendSignInLinkToEmail(auth, email, actionCodeSettings);
       window.localStorage.setItem('emailForSignIn', email);
       setSent(true);
