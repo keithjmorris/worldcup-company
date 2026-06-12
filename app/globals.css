@@ -437,3 +437,10 @@ body {
 .sub-out { color: var(--live-red); font-size: 0.78rem; }
 
 .match-block { margin-bottom: 1rem; }
+
+.nav-signout {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+}

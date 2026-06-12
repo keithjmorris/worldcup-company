@@ -2,6 +2,7 @@ import { Inter, Bebas_Neue } from 'next/font/google';
 import Link from 'next/link';
 import { AuthProvider } from '@/lib/AuthContext';
 import './globals.css';
+import SignOutButton from '@/components/SignOutButton';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-body' });
 const bebas = Bebas_Neue({ weight: '400', subsets: ['latin'], variable: '--font-display' });
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
             <Link href="/standings" className="nav-link">Table</Link>
             <Link href="/live" className="nav-link nav-live">● Live</Link>
             <Link href="/chat" className="nav-link">Chat</Link>
+            <SignOutButton />
           </nav>
           {children}
         </AuthProvider>
