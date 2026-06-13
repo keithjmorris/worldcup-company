@@ -11,16 +11,28 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
+const ALLOWED_DOMAINS = ['xenomorph.com', 'newmodel.vc', 'wellsmaltings.org.uk'];
+
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [nameSet, setNameSet] = useState(false);
+  const [authorised, setAuthorised] = useState(false);
+  const [emailError, setEmailError] = useState(null);
   const bottomRef = useRef(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('wchat_name');
-    if (saved) { setName(saved); setNameSet(true); }
+    const savedEmail = localStorage.getItem('wc_company_email');
+    const savedName = localStorage.getItem('wc_company_name');
+    if (savedEmail && savedName) {
+      const domain = savedEmail.split('@')[1];
+      if (ALLOWED_DOMAINS.includes(domain)) {
+        setEmail(savedEmail);
+        setName(savedName);
+        setAuthorised(true);
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -35,11 +47,26 @@ export default function ChatPage() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  function saveName(e) {
+  function handleEmailSubmit(e) {
     e.preventDefault();
-    if (!name.trim()) return;
-    localStorage.setItem('wchat_name', name.trim());
-    setNameSet(true);
+    setEmailError(null);
+    const normalised = email.toLowerCase().trim();
+    const domain = normalised.split('@')[1];
+
+    if (!ALLOWED_DOMAINS.includes(domain)) {
+      setEmailError('This email address is not authorised to post in this chat.');
+      return;
+    }
+
+    const derivedName = normalised
+      .split('@')[0]
+      .replace(/[._]/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
+
+    localStorage.setItem('wc_company_email', normalised);
+    localStorage.setItem('wc_company_name', derivedName);
+    setName(derivedName);
+    setAuthorised(true);
   }
 
   async function sendMessage(e) {
@@ -53,43 +80,16 @@ export default function ChatPage() {
     setNewMessage('');
   }
 
-  if (!nameSet) {
-    return (
-      <main>
-        <header className="site-header">
-          <div className="header-inner">
-            <span className="trophy">💬</span>
-            <div>
-              <h1 className="site-title">Family Chat</h1>
-              <p className="site-subtitle">World Cup 2026</p>
-            </div>
-          </div>
-        </header>
-        <div className="content" style={{ maxWidth: 400, paddingTop: '3rem' }}>
-          <p style={{ marginBottom: '1rem', fontWeight: 600 }}>What's your name?</p>
-          <form onSubmit={saveName} style={{ display: 'flex', gap: '0.5rem' }}>
-            <input
-              className="chat-input"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              placeholder="Enter your name…"
-              autoFocus
-            />
-            <button className="send-btn" type="submit">Go</button>
-          </form>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main>
       <header className="site-header">
         <div className="header-inner">
           <span className="trophy">💬</span>
           <div>
-            <h1 className="site-title">Family Chat</h1>
-            <p className="site-subtitle">Chatting as {name}</p>
+            <h1 className="site-title">Company Chat</h1>
+            <p className="site-subtitle">
+              {authorised ? `Chatting as ${name}` : 'World Cup 2026'}
+            </p>
           </div>
         </div>
       </header>
@@ -116,15 +116,39 @@ export default function ChatPage() {
           <div ref={bottomRef} />
         </div>
 
-        <form onSubmit={sendMessage} className="chat-input-row">
-          <input
-            className="chat-input"
-            value={newMessage}
-            onChange={e => setNewMessage(e.target.value)}
-            placeholder="Type a message…"
-          />
-          <button className="send-btn" type="submit">Send</button>
-        </form>
+        {!authorised ? (
+          <div style={{ borderTop: '1px solid var(--card-border)', paddingTop: '0.75rem' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--muted)', marginBottom: '0.5rem' }}>
+              Enter your work email to join the chat:
+            </p>
+            <form onSubmit={handleEmailSubmit} className="chat-input-row">
+              <input
+                className="chat-input"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="your@company.com"
+                required
+              />
+              <button className="send-btn" type="submit">Join</button>
+            </form>
+            {emailError && (
+              <p style={{ color: 'var(--live-red)', fontSize: '0.8rem', marginTop: '0.4rem' }}>
+                {emailError}
+              </p>
+            )}
+          </div>
+        ) : (
+          <form onSubmit={sendMessage} className="chat-input-row">
+            <input
+              className="chat-input"
+              value={newMessage}
+              onChange={e => setNewMessage(e.target.value)}
+              placeholder="Type a message…"
+            />
+            <button className="send-btn" type="submit">Send</button>
+          </form>
+        )}
       </div>
     </main>
   );
