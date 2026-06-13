@@ -1,7 +1,7 @@
 import { Inter, Bebas_Neue } from 'next/font/google';
 import Link from 'next/link';
 import { AuthProvider } from '@/lib/AuthContext';
-import SignOutButton from '@/components/SignOutButton';
+import MoreMenu from '@/components/MoreMenu';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-body' });
@@ -26,9 +26,7 @@ export default function RootLayout({ children }) {
             <Link href="/results" className="nav-link">Results</Link>
             <Link href="/standings" className="nav-link">Table</Link>
             <Link href="/live" className="nav-link nav-live">● Live</Link>
-            <Link href="/sweepstake" className="nav-link">Sweepstake</Link>
-            <Link href="/chat" className="nav-link">Chat</Link>
-            <SignOutButton />
+            <MoreMenu />
           </nav>
           {children}
         </AuthProvider>
