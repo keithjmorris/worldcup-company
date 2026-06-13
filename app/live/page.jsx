@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import MatchCard from '@/components/MatchCard';
 
 const POLL_INTERVAL = 30_000;
-const LIVE_STATUSES = 'IN_PLAY,PAUSED,EXTRA_TIME,PENALTY_SHOOTOUT';
+const LIVE_STATUSES = ['IN_PLAY', 'PAUSED', 'EXTRA_TIME', 'PENALTY_SHOOTOUT'];
 
 export default function LivePage() {
   const [matches, setMatches] = useState([]);
@@ -14,10 +14,12 @@ export default function LivePage() {
 
   async function fetchLive() {
     try {
-      const res = await fetch(`/api/matches?status=${LIVE_STATUSES}`);
+      const today = new Date().toISOString().split('T')[0];
+      const res = await fetch(`/api/matches?dateFrom=${today}&dateTo=${today}`);
       if (!res.ok) return;
       const data = await res.json();
-      setMatches(data.matches || []);
+      const live = (data.matches || []).filter(m => LIVE_STATUSES.includes(m.status));
+      setMatches(live);
       setLastUpdated(new Date());
     } catch {
       // silently fail on polling errors
