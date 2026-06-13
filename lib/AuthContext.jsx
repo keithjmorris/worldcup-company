@@ -1,8 +1,6 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from '@/lib/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
 import { useRouter, usePathname } from 'next/navigation';
 
 const AuthContext = createContext(null);
@@ -13,38 +11,49 @@ export function AuthProvider({ children }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
+    const email = localStorage.getItem('wc_company_email');
+    const name = localStorage.getItem('wc_company_name');
 
-      const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/auth');
+    if (email && name) {
+      setUser({ email, name });
+    } else {
+      setUser(null);
+    }
+  }, []);
 
-      if (!firebaseUser && !isAuthPage) {
-        router.push('/login');
-      }
+  useEffect(() => {
+    if (user === undefined) return;
 
-      if (firebaseUser && isAuthPage) {
-        router.push('/');
-      }
-    });
+    const isLoginPage = pathname.startsWith('/login');
 
-    return () => unsub();
-  }, [pathname, router]);
+    if (!user && !isLoginPage) {
+      router.push('/login');
+    }
+
+    if (user && isLoginPage) {
+      router.push('/');
+    }
+  }, [user, pathname, router]);
+
+  if (user === undefined) {
+    return (
+      <main>
+        <header className="site-header">
+          <div className="header-inner">
+            <span className="trophy">🏆</span>
+            <div>
+              <h1 className="site-title">World Cup 2026</h1>
+              <p className="site-subtitle">Loading…</p>
+            </div>
+          </div>
+        </header>
+      </main>
+    );
+  }
 
   return (
-    <AuthContext.Provider value={{ user }}>
-      {user === undefined ? (
-        <main>
-          <header className="site-header">
-            <div className="header-inner">
-              <span className="trophy">🏆</span>
-              <div>
-                <h1 className="site-title">World Cup 2026</h1>
-                <p className="site-subtitle">Loading…</p>
-              </div>
-            </div>
-          </header>
-        </main>
-      ) : children}
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
     </AuthContext.Provider>
   );
 }

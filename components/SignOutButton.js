@@ -1,14 +1,16 @@
 'use client';
 
-import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { useAuth } from '@/lib/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function SignOutButton() {
+  const { setUser } = useAuth();
   const router = useRouter();
 
-  async function handleSignOut() {
-    await signOut(auth);
+  function handleSignOut() {
+    localStorage.removeItem('wc_company_email');
+    localStorage.removeItem('wc_company_name');
+    setUser(null);
     router.push('/login');
   }
 

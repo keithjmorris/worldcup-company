@@ -1,8 +1,8 @@
 import { Inter, Bebas_Neue } from 'next/font/google';
 import Link from 'next/link';
 import { AuthProvider } from '@/lib/AuthContext';
-import './globals.css';
 import SignOutButton from '@/components/SignOutButton';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-body' });
 const bebas = Bebas_Neue({ weight: '400', subsets: ['latin'], variable: '--font-display' });
