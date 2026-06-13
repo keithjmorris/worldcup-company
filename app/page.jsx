@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import MatchCard from '@/components/MatchCard';
 import TabBar from '@/components/TabBar';
+import TeamFilter from '@/components/TeamFilter';
 
 const STAGES = ['All', 'Group Stage', 'Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
 
@@ -11,6 +12,7 @@ export default function FixturesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeStage, setActiveStage] = useState('All');
+  const [selectedTeam, setSelectedTeam] = useState('');
 
   useEffect(() => {
     async function fetchMatches() {
@@ -36,11 +38,15 @@ export default function FixturesPage() {
     'Final': 'FINAL',
   };
 
-  const filtered = activeStage === 'All'
-    ? matches
-    : matches.filter(m => m.stage === stageMap[activeStage]);
+  const filtered = matches
+    .filter(m => activeStage === 'All' || m.stage === stageMap[activeStage])
+    .filter(m => !selectedTeam || 
+      m.homeTeam?.shortName === selectedTeam || 
+      m.awayTeam?.shortName === selectedTeam ||
+      m.homeTeam?.name === selectedTeam ||
+      m.awayTeam?.name === selectedTeam
+    );
 
-  // Group by date
   const grouped = filtered.reduce((acc, match) => {
     const date = match.utcDate.split('T')[0];
     if (!acc[date]) acc[date] = [];
@@ -61,12 +67,13 @@ export default function FixturesPage() {
       </header>
 
       <TabBar tabs={STAGES} active={activeStage} onChange={setActiveStage} />
+      <TeamFilter matches={matches} selectedTeam={selectedTeam} onChange={setSelectedTeam} />
 
       <div className="content">
         {loading && <p className="state-msg">Loading fixtures…</p>}
         {error && <p className="state-msg error">Could not load fixtures: {error}</p>}
         {!loading && !error && Object.keys(grouped).length === 0 && (
-          <p className="state-msg">No matches found for this stage.</p>
+          <p className="state-msg">No matches found.</p>
         )}
         {!loading && !error && Object.entries(grouped).sort().map(([date, dayMatches]) => (
           <section key={date} className="day-group">

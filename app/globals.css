@@ -444,3 +444,28 @@ body {
   cursor: pointer;
   font-family: var(--font-body);
 }
+
+/* ── Team Filter ─────────────────────────────────────── */
+.team-filter-wrapper {
+  background: var(--pitch-mid);
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.team-filter-select {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  max-width: 300px;
+}
+.team-filter-select option {
+  background: var(--pitch);
+  color: white;
+}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import MatchCard from '@/components/MatchCard';
 import MatchDetails from '@/components/MatchDetails';
+import TeamFilter from '@/components/TeamFilter';
 
 function MatchSummary({ match }) {
   const [summary, setSummary] = useState(null);
@@ -50,6 +51,7 @@ export default function ResultsPage() {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState('');
 
   useEffect(() => {
     async function fetchResults() {
@@ -67,7 +69,15 @@ export default function ResultsPage() {
     fetchResults();
   }, []);
 
-  const grouped = matches.reduce((acc, match) => {
+  const filtered = matches.filter(m =>
+    !selectedTeam ||
+    m.homeTeam?.shortName === selectedTeam ||
+    m.awayTeam?.shortName === selectedTeam ||
+    m.homeTeam?.name === selectedTeam ||
+    m.awayTeam?.name === selectedTeam
+  );
+
+  const grouped = filtered.reduce((acc, match) => {
     const date = match.utcDate.split('T')[0];
     if (!acc[date]) acc[date] = [];
     acc[date].push(match);
@@ -85,6 +95,8 @@ export default function ResultsPage() {
           </div>
         </div>
       </header>
+
+      <TeamFilter matches={matches} selectedTeam={selectedTeam} onChange={setSelectedTeam} />
 
       <div className="content">
         {loading && <p className="state-msg">Loading results…</p>}
