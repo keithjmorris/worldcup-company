@@ -39,7 +39,11 @@ export default function MatchCard({ match }) {
             {kickoff}
           </div>
         )}
-        {isLive && <span className="live-badge">Live</span>}
+        {isLive && (
+  <span className="live-badge">
+    {match.minute ? `${match.minute}'` : 'Live'}
+  </span>
+)}
         {isFinished && <div className="match-time">FT</div>}
         {!showScore && <div className="match-time">KO</div>}
       </div>
