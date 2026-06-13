@@ -469,3 +469,130 @@ body {
   background: var(--pitch);
   color: white;
 }
+
+/* ── Lineups ─────────────────────────────────────────── */
+.lineup-team-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--pitch);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.lineup-player {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.2rem;
+}
+.lineup-shirt {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: white;
+  background: var(--pitch);
+  border-radius: 3px;
+  padding: 1px 4px;
+  min-width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.lineup-subbed-off {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+/* ── Sweepstake ──────────────────────────────────────── */
+.sweep-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 2rem;
+}
+.sweep-row {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.sweep-top {
+  border-color: var(--gold);
+}
+.sweep-main {
+  display: grid;
+  grid-template-columns: 32px 1fr auto auto 20px;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sweep-main:hover { background: #f9fafb; }
+.sweep-rank {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.sweep-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.sweep-teams-preview {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: right;
+}
+.sweep-points {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--pitch);
+  min-width: 32px;
+  text-align: right;
+}
+.sweep-chevron {
+  font-size: 0.65rem;
+  color: var(--muted);
+  text-align: center;
+}
+.sweep-detail {
+  border-top: 1px solid var(--card-border);
+  padding: 0.6rem 1rem;
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.sweep-team-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+.sweep-team-name { color: var(--ink); }
+.sweep-team-pts { font-weight: 700; color: var(--pitch); }
+
+/* Scoring key */
+.sweep-scoring {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+.sweep-scoring-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--pitch);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.05em;
+}
+.sweep-scoring-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.3rem 1rem;
+  font-size: 0.82rem;
+}
+.sweep-scoring-grid span:nth-child(even) {
+  font-weight: 700;
+  color: var(--pitch);
+  text-align: right;
+}
