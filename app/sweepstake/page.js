@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import MatchdayCommentary from '@/components/MatchdayCommentary';
 
 function Medal({ rank }) {
   if (rank === 1) return <span>🥇</span>;
@@ -11,6 +12,8 @@ function Medal({ rank }) {
 
 export default function SweepstakePage() {
   const [leaderboard, setLeaderboard] = useState([]);
+  const [matches, setMatches] = useState([]);
+  const [currentMatchday, setCurrentMatchday] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expanded, setExpanded] = useState(null);
@@ -22,6 +25,17 @@ export default function SweepstakePage() {
         if (!res.ok) throw new Error('Failed to fetch sweepstake data');
         const data = await res.json();
         setLeaderboard(data.leaderboard || []);
+        setMatches(data.matches || []);
+
+        // Find the most recent completed matchday
+        const finishedMatches = (data.matches || []).filter(m => m.status === 'FINISHED');
+        if (finishedMatches.length > 0) {
+          const matchdays = finishedMatches
+            .map(m => m.matchday)
+            .filter(Boolean);
+          const latest = Math.max(...matchdays);
+          setCurrentMatchday(latest);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -49,6 +63,14 @@ export default function SweepstakePage() {
 
         {!loading && !error && (
           <>
+            {currentMatchday && (
+              <MatchdayCommentary
+                matchday={currentMatchday}
+                matches={matches}
+                leaderboard={leaderboard}
+              />
+            )}
+
             <div className="sweep-table">
               {leaderboard.map((player, index) => {
                 const rank = index + 1;

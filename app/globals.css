@@ -638,3 +638,66 @@ body {
 .more-item:last-child { border-bottom: none; }
 .more-item:hover { background: rgba(201,168,76,0.15); color: var(--gold); }
 .more-signout { color: rgba(255,255,255,0.5); }
+
+/* ── Matchday Commentary ─────────────────────────────── */
+.commentary-box {
+  background: var(--card-bg);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+.commentary-header {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.85rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.commentary-header:hover { background: #f9fafb; }
+.commentary-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.commentary-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--pitch);
+  letter-spacing: 0.05em;
+}
+.commentary-new {
+  background: var(--live-red);
+  color: white;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+.commentary-chevron {
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+.commentary-body {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid var(--card-border);
+}
+.commentary-para {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--ink);
+  margin-top: 0.75rem;
+}
+.commentary-loading {
+  padding: 1rem;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.85rem;
+}
