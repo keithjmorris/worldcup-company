@@ -158,6 +158,62 @@ function LiveMatchCard({ match }) {
           </div>
         </div>
       )}
+
+      {/* Lineups */}
+      {(m.homeTeam?.lineup?.length > 0 || m.awayTeam?.lineup?.length > 0) && (
+        <div className="live-events">
+          <div className="live-events-section-title">Starting Lineups</div>
+          <div className="live-events-two-col">
+            <div>
+              <div className="lineup-team-name">
+                {homeTeam?.shortName} {homeTeam?.formation ? `(${homeTeam.formation})` : ''}
+              </div>
+              {m.homeTeam?.lineup?.map(p => (
+                <div key={p.id} className="lineup-player">
+                  <span className="lineup-shirt">{p.shirtNumber}</span>
+                  <span>{p.name}{p.position === 'Goalkeeper' ? ' 🧤' : ''}</span>
+                </div>
+              ))}
+            </div>
+            <div>
+              <div className="lineup-team-name">
+                {awayTeam?.shortName} {awayTeam?.formation ? `(${awayTeam.formation})` : ''}
+              </div>
+              {m.awayTeam?.lineup?.map(p => (
+                <div key={p.id} className="lineup-player">
+                  <span className="lineup-shirt">{p.shirtNumber}</span>
+                  <span>{p.name}{p.position === 'Goalkeeper' ? ' 🧤' : ''}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bench */}
+      {(m.homeTeam?.bench?.length > 0 || m.awayTeam?.bench?.length > 0) && (
+        <div className="live-events">
+          <div className="live-events-section-title">Substitutes</div>
+          <div className="live-events-two-col">
+            <div>
+              {m.homeTeam?.bench?.map(p => (
+                <div key={p.id} className="lineup-player">
+                  <span className="lineup-shirt">{p.shirtNumber}</span>
+                  <span>{p.name}</span>
+                </div>
+              ))}
+            </div>
+            <div>
+              {m.awayTeam?.bench?.map(p => (
+                <div key={p.id} className="lineup-player">
+                  <span className="lineup-shirt">{p.shirtNumber}</span>
+                  <span>{p.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
