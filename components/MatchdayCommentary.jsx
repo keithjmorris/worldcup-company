@@ -50,7 +50,7 @@ export default function MatchdayCommentary({ matchday, matches, leaderboard }) {
     <div className="commentary-box">
       <button className="commentary-header" onClick={() => setOpen(!open)}>
         <div className="commentary-title-row">
-          <span className="commentary-title">📝 Matchday {matchday} Report</span>
+          <span className="commentary-title">📝 Report — {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
           {!cached && <span className="commentary-new">New</span>}
         </div>
         <span className="commentary-chevron">{open ? '▲' : '▼'}</span>
