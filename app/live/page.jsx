@@ -158,7 +158,6 @@ function LiveMatchCard({ match }) {
           </div>
         </div>
       )}
-
       {/* Lineups */}
       {(m.homeTeam?.lineup?.length > 0 || m.awayTeam?.lineup?.length > 0) && (
         <div className="live-events">
