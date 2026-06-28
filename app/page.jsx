@@ -5,7 +5,7 @@ import MatchCard from '@/components/MatchCard';
 import TabBar from '@/components/TabBar';
 import TeamFilter from '@/components/TeamFilter';
 
-const STAGES = ['All', 'Group Stage', 'Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
+const STAGES = ['All', 'Group Stage', 'Round of 32', 'Round of 16', 'Quarter-finals', 'Semi-finals', 'Final'];
 
 export default function FixturesPage() {
   const [matches, setMatches] = useState([]);
@@ -31,12 +31,13 @@ export default function FixturesPage() {
   }, []);
 
   const stageMap = {
-    'Group Stage': 'GROUP_STAGE',
-    'Round of 16': 'LAST_16',
-    'Quarter-finals': 'QUARTER_FINALS',
-    'Semi-finals': 'SEMI_FINALS',
-    'Final': 'FINAL',
-  };
+  'Group Stage': 'GROUP_STAGE',
+  'Round of 32': 'LAST_32',
+  'Round of 16': 'LAST_16',
+  'Quarter-finals': 'QUARTER_FINALS',
+  'Semi-finals': 'SEMI_FINALS',
+  'Final': 'FINAL',
+};
 
   const filtered = matches
     .filter(m => activeStage === 'All' || m.stage === stageMap[activeStage])
