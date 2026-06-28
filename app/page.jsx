@@ -40,13 +40,14 @@ export default function FixturesPage() {
 };
 
   const filtered = matches
-    .filter(m => activeStage === 'All' || m.stage === stageMap[activeStage])
-    .filter(m => !selectedTeam || 
-      m.homeTeam?.shortName === selectedTeam || 
-      m.awayTeam?.shortName === selectedTeam ||
-      m.homeTeam?.name === selectedTeam ||
-      m.awayTeam?.name === selectedTeam
-    );
+  .filter(m => m.status !== 'FINISHED' && m.status !== 'AWARDED' && m.status !== 'CANCELLED')
+  .filter(m => activeStage === 'All' || m.stage === stageMap[activeStage])
+  .filter(m => !selectedTeam || 
+    m.homeTeam?.shortName === selectedTeam || 
+    m.awayTeam?.shortName === selectedTeam ||
+    m.homeTeam?.name === selectedTeam ||
+    m.awayTeam?.name === selectedTeam
+  );
 
   const grouped = filtered.reduce((acc, match) => {
     const date = match.utcDate.split('T')[0];
